@@ -1,4 +1,3 @@
-# Embedded-Dinosaur-Game
 # 🕹️ 8051 Multitasking System with Game & Hardware Integration
 
 This repository contains the implementation of a **cooperative and preemptive multitasking system** for the **8051 microcontroller**, developed across five progressive checkpoints. The project showcases OS-level concepts like thread scheduling, synchronization, and real-time hardware interaction on resource-constrained embedded systems.
