@@ -44,8 +44,8 @@ This repository contains the implementation of a **cooperative and preemptive mu
 ---
 
 ## 🛠️ Compilation Instructions
-$ make clean   # (Ignore file-not-found errors)
-$ make         # Compile project and generate .hex/.map
+$ make clean   
+$ make         
 
 Each checkpoint includes:
 - Source files (.c)
