@@ -9,7 +9,6 @@ This repository contains the implementation of a **cooperative and preemptive mu
 ### ✅ Checkpoint 1: Cooperative Multitasking
 - Implemented basic cooperative threading system.
 - Generated `.hex` and `.map` files for EdSim51.
-- ⚠️ Warning noted: *unreferenced function argument `fp` in ThreadCreate*.
 
 ### ✅ Checkpoint 2: Preemptive Multitasking
 - Added Timer 0 interrupt-based preemptive scheduling.
