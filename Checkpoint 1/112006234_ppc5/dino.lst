@@ -1,0 +1,1202 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.0 #15242 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module dino
+                                      6 	
+                                      7 	.optsdcc -mmcs51 --model-small
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _cactus_patterns
+                                     12 	.globl _cactus
+                                     13 	.globl _dinosaur
+                                     14 	.globl _timer0_ISR
+                                     15 	.globl __mcs51_genXRAMCLEAR
+                                     16 	.globl __mcs51_genXINIT
+                                     17 	.globl __mcs51_genRAMCLEAR
+                                     18 	.globl __sdcc_gsinit_startup
+                                     19 	.globl _main
+                                     20 	.globl _game_ctrl
+                                     21 	.globl _render_task
+                                     22 	.globl _keypad_ctrl
+                                     23 	.globl _LCD_set_symbol
+                                     24 	.globl _LCD_write_char
+                                     25 	.globl _LCD_IRWrite
+                                     26 	.globl _LCD_Init
+                                     27 	.globl _AnyKeyPressed
+                                     28 	.globl _KeyToChar
+                                     29 	.globl _Init_Keypad
+                                     30 	.globl _ThreadYield
+                                     31 	.globl _ThreadCreate
+                                     32 	.globl _CY
+                                     33 	.globl _AC
+                                     34 	.globl _F0
+                                     35 	.globl _RS1
+                                     36 	.globl _RS0
+                                     37 	.globl _OV
+                                     38 	.globl _F1
+                                     39 	.globl _P
+                                     40 	.globl _PS
+                                     41 	.globl _PT1
+                                     42 	.globl _PX1
+                                     43 	.globl _PT0
+                                     44 	.globl _PX0
+                                     45 	.globl _RD
+                                     46 	.globl _WR
+                                     47 	.globl _T1
+                                     48 	.globl _T0
+                                     49 	.globl _INT1
+                                     50 	.globl _INT0
+                                     51 	.globl _TXD
+                                     52 	.globl _RXD
+                                     53 	.globl _P3_7
+                                     54 	.globl _P3_6
+                                     55 	.globl _P3_5
+                                     56 	.globl _P3_4
+                                     57 	.globl _P3_3
+                                     58 	.globl _P3_2
+                                     59 	.globl _P3_1
+                                     60 	.globl _P3_0
+                                     61 	.globl _EA
+                                     62 	.globl _ES
+                                     63 	.globl _ET1
+                                     64 	.globl _EX1
+                                     65 	.globl _ET0
+                                     66 	.globl _EX0
+                                     67 	.globl _P2_7
+                                     68 	.globl _P2_6
+                                     69 	.globl _P2_5
+                                     70 	.globl _P2_4
+                                     71 	.globl _P2_3
+                                     72 	.globl _P2_2
+                                     73 	.globl _P2_1
+                                     74 	.globl _P2_0
+                                     75 	.globl _SM0
+                                     76 	.globl _SM1
+                                     77 	.globl _SM2
+                                     78 	.globl _REN
+                                     79 	.globl _TB8
+                                     80 	.globl _RB8
+                                     81 	.globl _TI
+                                     82 	.globl _RI
+                                     83 	.globl _P1_7
+                                     84 	.globl _P1_6
+                                     85 	.globl _P1_5
+                                     86 	.globl _P1_4
+                                     87 	.globl _P1_3
+                                     88 	.globl _P1_2
+                                     89 	.globl _P1_1
+                                     90 	.globl _P1_0
+                                     91 	.globl _TF1
+                                     92 	.globl _TR1
+                                     93 	.globl _TF0
+                                     94 	.globl _TR0
+                                     95 	.globl _IE1
+                                     96 	.globl _IT1
+                                     97 	.globl _IE0
+                                     98 	.globl _IT0
+                                     99 	.globl _P0_7
+                                    100 	.globl _P0_6
+                                    101 	.globl _P0_5
+                                    102 	.globl _P0_4
+                                    103 	.globl _P0_3
+                                    104 	.globl _P0_2
+                                    105 	.globl _P0_1
+                                    106 	.globl _P0_0
+                                    107 	.globl _B
+                                    108 	.globl _ACC
+                                    109 	.globl _PSW
+                                    110 	.globl _IP
+                                    111 	.globl _P3
+                                    112 	.globl _IE
+                                    113 	.globl _P2
+                                    114 	.globl _SBUF
+                                    115 	.globl _SCON
+                                    116 	.globl _P1
+                                    117 	.globl _TH1
+                                    118 	.globl _TH0
+                                    119 	.globl _TL1
+                                    120 	.globl _TL0
+                                    121 	.globl _TMOD
+                                    122 	.globl _TCON
+                                    123 	.globl _PCON
+                                    124 	.globl _DPH
+                                    125 	.globl _DPL
+                                    126 	.globl _SP
+                                    127 	.globl _P0
+                                    128 	.globl _last_cactus_row
+                                    129 	.globl _cactus_timer
+                                    130 	.globl _game_speed
+                                    131 	.globl _mask
+                                    132 	.globl _carry_bit
+                                    133 	.globl _time
+                                    134 	.globl _map_btm
+                                    135 	.globl _map_top
+                                    136 	.globl _score
+                                    137 	.globl _game_over
+                                    138 	.globl _game_start
+                                    139 	.globl _dino_position
+                                    140 	.globl _pressed_key
+                                    141 	.globl _difficulty_input
+                                    142 ;--------------------------------------------------------
+                                    143 ; special function registers
+                                    144 ;--------------------------------------------------------
+                                    145 	.area RSEG    (ABS,DATA)
+      000000                        146 	.org 0x0000
+                           000080   147 _P0	=	0x0080
+                           000081   148 _SP	=	0x0081
+                           000082   149 _DPL	=	0x0082
+                           000083   150 _DPH	=	0x0083
+                           000087   151 _PCON	=	0x0087
+                           000088   152 _TCON	=	0x0088
+                           000089   153 _TMOD	=	0x0089
+                           00008A   154 _TL0	=	0x008a
+                           00008B   155 _TL1	=	0x008b
+                           00008C   156 _TH0	=	0x008c
+                           00008D   157 _TH1	=	0x008d
+                           000090   158 _P1	=	0x0090
+                           000098   159 _SCON	=	0x0098
+                           000099   160 _SBUF	=	0x0099
+                           0000A0   161 _P2	=	0x00a0
+                           0000A8   162 _IE	=	0x00a8
+                           0000B0   163 _P3	=	0x00b0
+                           0000B8   164 _IP	=	0x00b8
+                           0000D0   165 _PSW	=	0x00d0
+                           0000E0   166 _ACC	=	0x00e0
+                           0000F0   167 _B	=	0x00f0
+                                    168 ;--------------------------------------------------------
+                                    169 ; special function bits
+                                    170 ;--------------------------------------------------------
+                                    171 	.area RSEG    (ABS,DATA)
+      000000                        172 	.org 0x0000
+                           000080   173 _P0_0	=	0x0080
+                           000081   174 _P0_1	=	0x0081
+                           000082   175 _P0_2	=	0x0082
+                           000083   176 _P0_3	=	0x0083
+                           000084   177 _P0_4	=	0x0084
+                           000085   178 _P0_5	=	0x0085
+                           000086   179 _P0_6	=	0x0086
+                           000087   180 _P0_7	=	0x0087
+                           000088   181 _IT0	=	0x0088
+                           000089   182 _IE0	=	0x0089
+                           00008A   183 _IT1	=	0x008a
+                           00008B   184 _IE1	=	0x008b
+                           00008C   185 _TR0	=	0x008c
+                           00008D   186 _TF0	=	0x008d
+                           00008E   187 _TR1	=	0x008e
+                           00008F   188 _TF1	=	0x008f
+                           000090   189 _P1_0	=	0x0090
+                           000091   190 _P1_1	=	0x0091
+                           000092   191 _P1_2	=	0x0092
+                           000093   192 _P1_3	=	0x0093
+                           000094   193 _P1_4	=	0x0094
+                           000095   194 _P1_5	=	0x0095
+                           000096   195 _P1_6	=	0x0096
+                           000097   196 _P1_7	=	0x0097
+                           000098   197 _RI	=	0x0098
+                           000099   198 _TI	=	0x0099
+                           00009A   199 _RB8	=	0x009a
+                           00009B   200 _TB8	=	0x009b
+                           00009C   201 _REN	=	0x009c
+                           00009D   202 _SM2	=	0x009d
+                           00009E   203 _SM1	=	0x009e
+                           00009F   204 _SM0	=	0x009f
+                           0000A0   205 _P2_0	=	0x00a0
+                           0000A1   206 _P2_1	=	0x00a1
+                           0000A2   207 _P2_2	=	0x00a2
+                           0000A3   208 _P2_3	=	0x00a3
+                           0000A4   209 _P2_4	=	0x00a4
+                           0000A5   210 _P2_5	=	0x00a5
+                           0000A6   211 _P2_6	=	0x00a6
+                           0000A7   212 _P2_7	=	0x00a7
+                           0000A8   213 _EX0	=	0x00a8
+                           0000A9   214 _ET0	=	0x00a9
+                           0000AA   215 _EX1	=	0x00aa
+                           0000AB   216 _ET1	=	0x00ab
+                           0000AC   217 _ES	=	0x00ac
+                           0000AF   218 _EA	=	0x00af
+                           0000B0   219 _P3_0	=	0x00b0
+                           0000B1   220 _P3_1	=	0x00b1
+                           0000B2   221 _P3_2	=	0x00b2
+                           0000B3   222 _P3_3	=	0x00b3
+                           0000B4   223 _P3_4	=	0x00b4
+                           0000B5   224 _P3_5	=	0x00b5
+                           0000B6   225 _P3_6	=	0x00b6
+                           0000B7   226 _P3_7	=	0x00b7
+                           0000B0   227 _RXD	=	0x00b0
+                           0000B1   228 _TXD	=	0x00b1
+                           0000B2   229 _INT0	=	0x00b2
+                           0000B3   230 _INT1	=	0x00b3
+                           0000B4   231 _T0	=	0x00b4
+                           0000B5   232 _T1	=	0x00b5
+                           0000B6   233 _WR	=	0x00b6
+                           0000B7   234 _RD	=	0x00b7
+                           0000B8   235 _PX0	=	0x00b8
+                           0000B9   236 _PT0	=	0x00b9
+                           0000BA   237 _PX1	=	0x00ba
+                           0000BB   238 _PT1	=	0x00bb
+                           0000BC   239 _PS	=	0x00bc
+                           0000D0   240 _P	=	0x00d0
+                           0000D1   241 _F1	=	0x00d1
+                           0000D2   242 _OV	=	0x00d2
+                           0000D3   243 _RS0	=	0x00d3
+                           0000D4   244 _RS1	=	0x00d4
+                           0000D5   245 _F0	=	0x00d5
+                           0000D6   246 _AC	=	0x00d6
+                           0000D7   247 _CY	=	0x00d7
+                                    248 ;--------------------------------------------------------
+                                    249 ; overlayable register banks
+                                    250 ;--------------------------------------------------------
+                                    251 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        252 	.ds 8
+                                    253 ;--------------------------------------------------------
+                                    254 ; internal ram data
+                                    255 ;--------------------------------------------------------
+                                    256 	.area DSEG    (DATA)
+                           000020   257 _pressed_key	=	0x0020
+                           000021   258 _dino_position	=	0x0021
+                           000022   259 _game_start	=	0x0022
+                           000023   260 _game_over	=	0x0023
+                           000024   261 _score	=	0x0024
+                           000025   262 _map_top	=	0x0025
+                           000027   263 _map_btm	=	0x0027
+                           000029   264 _time	=	0x0029
+                           00002A   265 _carry_bit	=	0x002a
+                           00002B   266 _mask	=	0x002b
+                           00002C   267 _game_speed	=	0x002c
+                           00002D   268 _cactus_timer	=	0x002d
+                           00002E   269 _last_cactus_row	=	0x002e
+                                    270 ;--------------------------------------------------------
+                                    271 ; overlayable items in internal ram
+                                    272 ;--------------------------------------------------------
+                                    273 ;--------------------------------------------------------
+                                    274 ; Stack segment in internal ram
+                                    275 ;--------------------------------------------------------
+                                    276 	.area SSEG
+      000000                        277 __start__stack:
+      000000                        278 	.ds	1
+                                    279 
+                                    280 ;--------------------------------------------------------
+                                    281 ; indirectly addressable internal ram data
+                                    282 ;--------------------------------------------------------
+                                    283 	.area ISEG    (DATA)
+                                    284 ;--------------------------------------------------------
+                                    285 ; absolute internal ram data
+                                    286 ;--------------------------------------------------------
+                                    287 	.area IABS    (ABS,DATA)
+                                    288 	.area IABS    (ABS,DATA)
+                                    289 ;--------------------------------------------------------
+                                    290 ; bit data
+                                    291 ;--------------------------------------------------------
+                                    292 	.area BSEG    (BIT)
+                                    293 ;--------------------------------------------------------
+                                    294 ; paged external ram data
+                                    295 ;--------------------------------------------------------
+                                    296 	.area PSEG    (PAG,XDATA)
+                                    297 ;--------------------------------------------------------
+                                    298 ; uninitialized external ram data
+                                    299 ;--------------------------------------------------------
+                                    300 	.area XSEG    (XDATA)
+                                    301 ;--------------------------------------------------------
+                                    302 ; absolute external ram data
+                                    303 ;--------------------------------------------------------
+                                    304 	.area XABS    (ABS,XDATA)
+                                    305 ;--------------------------------------------------------
+                                    306 ; initialized external ram data
+                                    307 ;--------------------------------------------------------
+                                    308 	.area XISEG   (XDATA)
+                                    309 	.area HOME    (CODE)
+                                    310 	.area GSINIT0 (CODE)
+                                    311 	.area GSINIT1 (CODE)
+                                    312 	.area GSINIT2 (CODE)
+                                    313 	.area GSINIT3 (CODE)
+                                    314 	.area GSINIT4 (CODE)
+                                    315 	.area GSINIT5 (CODE)
+                                    316 	.area GSINIT  (CODE)
+                                    317 	.area GSFINAL (CODE)
+                                    318 	.area CSEG    (CODE)
+                                    319 ;--------------------------------------------------------
+                                    320 ; interrupt vector
+                                    321 ;--------------------------------------------------------
+                                    322 	.area HOME    (CODE)
+      000000                        323 __interrupt_vect:
+      000000 02r03rCF         [24]  324 	ljmp	__sdcc_gsinit_startup
+      000003 32               [24]  325 	reti
+      000004                        326 	.ds	7
+      00000B 02r03rD6         [24]  327 	ljmp	_timer0_ISR
+                                    328 ; restartable atomic support routines
+      00000E                        329 	.ds	2
+      000010                        330 sdcc_atomic_exchange_rollback_start::
+      000010 00               [12]  331 	nop
+      000011 00               [12]  332 	nop
+      000012                        333 sdcc_atomic_exchange_pdata_impl:
+      000012 E2               [24]  334 	movx	a, @r0
+      000013 FB               [12]  335 	mov	r3, a
+      000014 EA               [12]  336 	mov	a, r2
+      000015 F2               [24]  337 	movx	@r0, a
+      000016 80 2C            [24]  338 	sjmp	sdcc_atomic_exchange_exit
+      000018 00               [12]  339 	nop
+      000019 00               [12]  340 	nop
+      00001A                        341 sdcc_atomic_exchange_xdata_impl:
+      00001A E0               [24]  342 	movx	a, @dptr
+      00001B FB               [12]  343 	mov	r3, a
+      00001C EA               [12]  344 	mov	a, r2
+      00001D F0               [24]  345 	movx	@dptr, a
+      00001E 80 24            [24]  346 	sjmp	sdcc_atomic_exchange_exit
+      000020                        347 sdcc_atomic_compare_exchange_idata_impl:
+      000020 E6               [12]  348 	mov	a, @r0
+      000021 B5 02 02         [24]  349 	cjne	a, ar2, .+#5
+      000024 EB               [12]  350 	mov	a, r3
+      000025 F6               [12]  351 	mov	@r0, a
+      000026 22               [24]  352 	ret
+      000027 00               [12]  353 	nop
+      000028                        354 sdcc_atomic_compare_exchange_pdata_impl:
+      000028 E2               [24]  355 	movx	a, @r0
+      000029 B5 02 02         [24]  356 	cjne	a, ar2, .+#5
+      00002C EB               [12]  357 	mov	a, r3
+      00002D F2               [24]  358 	movx	@r0, a
+      00002E 22               [24]  359 	ret
+      00002F 00               [12]  360 	nop
+      000030                        361 sdcc_atomic_compare_exchange_xdata_impl:
+      000030 E0               [24]  362 	movx	a, @dptr
+      000031 B5 02 02         [24]  363 	cjne	a, ar2, .+#5
+      000034 EB               [12]  364 	mov	a, r3
+      000035 F0               [24]  365 	movx	@dptr, a
+      000036 22               [24]  366 	ret
+      000037                        367 sdcc_atomic_exchange_rollback_end::
+                                    368 
+      000037                        369 sdcc_atomic_exchange_gptr_impl::
+      000037 30 F6 E0         [24]  370 	jnb	b.6, sdcc_atomic_exchange_xdata_impl
+      00003A A8 82            [24]  371 	mov	r0, dpl
+      00003C 20 F5 D3         [24]  372 	jb	b.5, sdcc_atomic_exchange_pdata_impl
+      00003F                        373 sdcc_atomic_exchange_idata_impl:
+      00003F EA               [12]  374 	mov	a, r2
+      000040 C6               [12]  375 	xch	a, @r0
+      000041 F5 82            [12]  376 	mov	dpl, a
+      000043 22               [24]  377 	ret
+      000044                        378 sdcc_atomic_exchange_exit:
+      000044 8B 82            [24]  379 	mov	dpl, r3
+      000046 22               [24]  380 	ret
+      000047                        381 sdcc_atomic_compare_exchange_gptr_impl::
+      000047 30 F6 E6         [24]  382 	jnb	b.6, sdcc_atomic_compare_exchange_xdata_impl
+      00004A A8 82            [24]  383 	mov	r0, dpl
+      00004C 20 F5 D9         [24]  384 	jb	b.5, sdcc_atomic_compare_exchange_pdata_impl
+      00004F 80 CF            [24]  385 	sjmp	sdcc_atomic_compare_exchange_idata_impl
+                                    386 ;--------------------------------------------------------
+                                    387 ; global & static initialisations
+                                    388 ;--------------------------------------------------------
+                                    389 	.area HOME    (CODE)
+                                    390 	.area GSINIT  (CODE)
+                                    391 	.area GSFINAL (CODE)
+                                    392 	.area GSINIT  (CODE)
+                                    393 	.globl __sdcc_gsinit_startup
+                                    394 	.globl __sdcc_program_startup
+                                    395 	.globl __start__stack
+                                    396 	.globl __mcs51_genXINIT
+                                    397 	.globl __mcs51_genXRAMCLEAR
+                                    398 	.globl __mcs51_genRAMCLEAR
+                                    399 	.area GSFINAL (CODE)
+      000000 02r00r51         [24]  400 	ljmp	__sdcc_program_startup
+                                    401 ;--------------------------------------------------------
+                                    402 ; Home
+                                    403 ;--------------------------------------------------------
+                                    404 	.area HOME    (CODE)
+                                    405 	.area HOME    (CODE)
+      000051                        406 __sdcc_program_startup:
+      000051 02r03r66         [24]  407 	ljmp	_main
+                                    408 ;	return from main will return to caller
+                                    409 ;--------------------------------------------------------
+                                    410 ; code
+                                    411 ;--------------------------------------------------------
+                                    412 	.area CSEG    (CODE)
+                                    413 ;------------------------------------------------------------
+                                    414 ;Allocation info for local variables in function 'keypad_ctrl'
+                                    415 ;------------------------------------------------------------
+                                    416 ;	dino.c:33: void keypad_ctrl(void)
+                                    417 ;	-----------------------------------------
+                                    418 ;	 function keypad_ctrl
+                                    419 ;	-----------------------------------------
+      000000                        420 _keypad_ctrl:
+                           000007   421 	ar7 = 0x07
+                           000006   422 	ar6 = 0x06
+                           000005   423 	ar5 = 0x05
+                           000004   424 	ar4 = 0x04
+                           000003   425 	ar3 = 0x03
+                           000002   426 	ar2 = 0x02
+                           000001   427 	ar1 = 0x01
+                           000000   428 	ar0 = 0x00
+                                    429 ;	dino.c:36: while (AnyKeyPressed() == 0);
+      000000                        430 00101$:
+      000000 12r00r00         [24]  431 	lcall	_AnyKeyPressed
+      000003 E5 82            [12]  432 	mov	a, dpl
+      000005 60 F9            [24]  433 	jz	00101$
+                                    434 ;	dino.c:37: EA = 0;
+                                    435 ;	assignBit
+      000007 C2 AF            [12]  436 	clr	_EA
+                                    437 ;	dino.c:38: pressed_key = KeyToChar();
+      000009 12r00r00         [24]  438 	lcall	_KeyToChar
+      00000C 85 82 20         [24]  439 	mov	_pressed_key,dpl
+                                    440 ;	dino.c:39: EA = 1;
+                                    441 ;	assignBit
+      00000F D2 AF            [12]  442 	setb	_EA
+                                    443 ;	dino.c:41: if (pressed_key == '2') {
+      000011 74 32            [12]  444 	mov	a,#0x32
+      000013 B5 20 2D         [24]  445 	cjne	a,_pressed_key,00109$
+                                    446 ;	dino.c:42: EA = 0;                           
+                                    447 ;	assignBit
+      000016 C2 AF            [12]  448 	clr	_EA
+                                    449 ;	dino.c:43: if(dino_position == 1) {
+      000018 74 01            [12]  450 	mov	a,#0x01
+      00001A B5 21 26         [24]  451 	cjne	a,_dino_position,00109$
+                                    452 ;	dino.c:44: if(map_top[0] & 0x80) {
+      00001D E5 25            [12]  453 	mov	a,_map_top
+      00001F 30 E7 06         [24]  454 	jnb	acc.7,00105$
+                                    455 ;	dino.c:45: game_over = 1;
+      000022 75 23 01         [24]  456 	mov	_game_over,#0x01
+                                    457 ;	dino.c:46: ThreadYield();
+      000025 12r00r00         [24]  458 	lcall	_ThreadYield
+      000028                        459 00105$:
+                                    460 ;	dino.c:49: dino_position = 0;
+      000028 75 21 00         [24]  461 	mov	_dino_position,#0x00
+                                    462 ;	dino.c:50: LCD_cursorGoTo(1, 0);
+      00002B 75 82 C0         [24]  463 	mov	dpl, #0xc0
+      00002E 12r00r00         [24]  464 	lcall	_LCD_IRWrite
+                                    465 ;	dino.c:51: LCD_write_char(' ');
+      000031 75 82 20         [24]  466 	mov	dpl, #0x20
+      000034 12r00r00         [24]  467 	lcall	_LCD_write_char
+                                    468 ;	dino.c:52: LCD_cursorGoTo(0, 0);
+      000037 75 82 80         [24]  469 	mov	dpl, #0x80
+      00003A 12r00r00         [24]  470 	lcall	_LCD_IRWrite
+                                    471 ;	dino.c:53: LCD_write_char('\1');               
+      00003D 75 82 01         [24]  472 	mov	dpl, #0x01
+      000040 12r00r00         [24]  473 	lcall	_LCD_write_char
+      000043                        474 00109$:
+                                    475 ;	dino.c:56: EA = 1;
+                                    476 ;	assignBit
+      000043 D2 AF            [12]  477 	setb	_EA
+                                    478 ;	dino.c:58: if(pressed_key == '8'){
+      000045 74 38            [12]  479 	mov	a,#0x38
+      000047 B5 20 2C         [24]  480 	cjne	a,_pressed_key,00115$
+                                    481 ;	dino.c:59: EA = 0;
+                                    482 ;	assignBit
+      00004A C2 AF            [12]  483 	clr	_EA
+                                    484 ;	dino.c:60: if(dino_position == 0){
+      00004C E5 21            [12]  485 	mov	a,_dino_position
+      00004E 70 26            [24]  486 	jnz	00115$
+                                    487 ;	dino.c:61: if(map_btm[0] & 0x80){
+      000050 E5 27            [12]  488 	mov	a,_map_btm
+      000052 30 E7 06         [24]  489 	jnb	acc.7,00111$
+                                    490 ;	dino.c:62: game_over = 1;
+      000055 75 23 01         [24]  491 	mov	_game_over,#0x01
+                                    492 ;	dino.c:63: ThreadYield();
+      000058 12r00r00         [24]  493 	lcall	_ThreadYield
+      00005B                        494 00111$:
+                                    495 ;	dino.c:66: dino_position = 1;
+      00005B 75 21 01         [24]  496 	mov	_dino_position,#0x01
+                                    497 ;	dino.c:67: LCD_cursorGoTo(0, 0);
+      00005E 75 82 80         [24]  498 	mov	dpl, #0x80
+      000061 12r00r00         [24]  499 	lcall	_LCD_IRWrite
+                                    500 ;	dino.c:68: LCD_write_char(' ');
+      000064 75 82 20         [24]  501 	mov	dpl, #0x20
+      000067 12r00r00         [24]  502 	lcall	_LCD_write_char
+                                    503 ;	dino.c:69: LCD_cursorGoTo(1, 0);
+      00006A 75 82 C0         [24]  504 	mov	dpl, #0xc0
+      00006D 12r00r00         [24]  505 	lcall	_LCD_IRWrite
+                                    506 ;	dino.c:70: LCD_write_char('\1'); 
+      000070 75 82 01         [24]  507 	mov	dpl, #0x01
+      000073 12r00r00         [24]  508 	lcall	_LCD_write_char
+      000076                        509 00115$:
+                                    510 ;	dino.c:73: EA = 1;
+                                    511 ;	assignBit
+      000076 D2 AF            [12]  512 	setb	_EA
+                                    513 ;	dino.c:75: while (AnyKeyPressed());
+      000078                        514 00116$:
+      000078 12r00r00         [24]  515 	lcall	_AnyKeyPressed
+      00007B E5 82            [12]  516 	mov	a, dpl
+      00007D 70 F9            [24]  517 	jnz	00116$
+                                    518 ;	dino.c:77: }
+      00007F 02r00r00         [24]  519 	ljmp	00101$
+                                    520 ;------------------------------------------------------------
+                                    521 ;Allocation info for local variables in function 'render_task'
+                                    522 ;------------------------------------------------------------
+                                    523 ;	dino.c:79: void render_task(void){
+                                    524 ;	-----------------------------------------
+                                    525 ;	 function render_task
+                                    526 ;	-----------------------------------------
+      000082                        527 _render_task:
+                                    528 ;	dino.c:80: while(1){
+      000082                        529 00121$:
+                                    530 ;	dino.c:81: EA = 0;
+                                    531 ;	assignBit
+      000082 C2 AF            [12]  532 	clr	_EA
+                                    533 ;	dino.c:83: if (game_over) ThreadYield();
+      000084 E5 23            [12]  534 	mov	a,_game_over
+      000086 60 03            [24]  535 	jz	00102$
+      000088 12r00r00         [24]  536 	lcall	_ThreadYield
+      00008B                        537 00102$:
+                                    538 ;	dino.c:85: if ((dino_position == 0 && (map_top[0] & 0x40)) ||
+      00008B E5 21            [12]  539 	mov	a,_dino_position
+      00008D 70 05            [24]  540 	jnz	00107$
+      00008F E5 25            [12]  541 	mov	a,_map_top
+      000091 20 E6 0A         [24]  542 	jb	acc.6,00103$
+      000094                        543 00107$:
+                                    544 ;	dino.c:86: (dino_position == 1 && (map_btm[0] & 0x40))) {
+      000094 74 01            [12]  545 	mov	a,#0x01
+      000096 B5 21 0B         [24]  546 	cjne	a,_dino_position,00104$
+      000099 E5 27            [12]  547 	mov	a,_map_btm
+      00009B 30 E6 06         [24]  548 	jnb	acc.6,00104$
+      00009E                        549 00103$:
+                                    550 ;	dino.c:87: game_over = 1;
+      00009E 75 23 01         [24]  551 	mov	_game_over,#0x01
+                                    552 ;	dino.c:88: ThreadYield();
+      0000A1 12r00r00         [24]  553 	lcall	_ThreadYield
+      0000A4                        554 00104$:
+                                    555 ;	dino.c:91: carry_bit = (map_top[0] & 0x80) ? 1 : 0;
+      0000A4 E5 25            [12]  556 	mov	a,_map_top
+      0000A6 30 E7 04         [24]  557 	jnb	acc.7,00137$
+      0000A9 7F 01            [12]  558 	mov	r7,#0x01
+      0000AB 80 02            [24]  559 	sjmp	00138$
+      0000AD                        560 00137$:
+      0000AD 7F 00            [12]  561 	mov	r7,#0x00
+      0000AF                        562 00138$:
+      0000AF 8F 2A            [24]  563 	mov	_carry_bit,r7
+                                    564 ;	dino.c:92: map_top[0] <<= 1;
+      0000B1 E5 25            [12]  565 	mov	a,_map_top
+      0000B3 25 25            [12]  566 	add	a,_map_top
+      0000B5 F5 25            [12]  567 	mov	_map_top, a
+                                    568 ;	dino.c:93: if (map_top[1] & 0x80) map_top[0]++;
+      0000B7 E5 26            [12]  569 	mov	a,(_map_top + 0x0001)
+      0000B9 30 E7 05         [24]  570 	jnb	acc.7,00109$
+      0000BC E5 25            [12]  571 	mov	a,_map_top
+      0000BE 04               [12]  572 	inc	a
+      0000BF F5 25            [12]  573 	mov	_map_top,a
+      0000C1                        574 00109$:
+                                    575 ;	dino.c:94: map_top[1] <<= 1;
+      0000C1 E5 26            [12]  576 	mov	a,(_map_top + 0x0001)
+      0000C3 25 E0            [12]  577 	add	a,acc
+      0000C5 F5 26            [12]  578 	mov	(_map_top + 0x0001), a
+                                    579 ;	dino.c:95: if (carry_bit) { 
+      0000C7 E5 2A            [12]  580 	mov	a,_carry_bit
+      0000C9 60 0A            [24]  581 	jz	00111$
+                                    582 ;	dino.c:96: score++; 
+      0000CB E5 24            [12]  583 	mov	a,_score
+      0000CD 04               [12]  584 	inc	a
+      0000CE F5 24            [12]  585 	mov	_score,a
+                                    586 ;	dino.c:97: map_top[1]++; 
+      0000D0 E5 26            [12]  587 	mov	a,(_map_top + 0x0001)
+      0000D2 04               [12]  588 	inc	a
+      0000D3 F5 26            [12]  589 	mov	(_map_top + 0x0001),a
+      0000D5                        590 00111$:
+                                    591 ;	dino.c:100: carry_bit = (map_btm[0] & 0x80) ? 1 : 0;
+      0000D5 E5 27            [12]  592 	mov	a,_map_btm
+      0000D7 30 E7 04         [24]  593 	jnb	acc.7,00139$
+      0000DA 7F 01            [12]  594 	mov	r7,#0x01
+      0000DC 80 02            [24]  595 	sjmp	00140$
+      0000DE                        596 00139$:
+      0000DE 7F 00            [12]  597 	mov	r7,#0x00
+      0000E0                        598 00140$:
+      0000E0 8F 2A            [24]  599 	mov	_carry_bit,r7
+                                    600 ;	dino.c:101: map_btm[0] <<= 1;
+      0000E2 E5 27            [12]  601 	mov	a,_map_btm
+      0000E4 25 27            [12]  602 	add	a,_map_btm
+      0000E6 F5 27            [12]  603 	mov	_map_btm, a
+                                    604 ;	dino.c:102: if (map_btm[1] & 0x80) map_btm[0]++;
+      0000E8 E5 28            [12]  605 	mov	a,(_map_btm + 0x0001)
+      0000EA 30 E7 05         [24]  606 	jnb	acc.7,00113$
+      0000ED E5 27            [12]  607 	mov	a,_map_btm
+      0000EF 04               [12]  608 	inc	a
+      0000F0 F5 27            [12]  609 	mov	_map_btm,a
+      0000F2                        610 00113$:
+                                    611 ;	dino.c:103: map_btm[1] <<= 1;
+      0000F2 E5 28            [12]  612 	mov	a,(_map_btm + 0x0001)
+      0000F4 25 E0            [12]  613 	add	a,acc
+      0000F6 F5 28            [12]  614 	mov	(_map_btm + 0x0001), a
+                                    615 ;	dino.c:104: if (carry_bit) { 
+      0000F8 E5 2A            [12]  616 	mov	a,_carry_bit
+      0000FA 60 0A            [24]  617 	jz	00115$
+                                    618 ;	dino.c:105: score++; 
+      0000FC E5 24            [12]  619 	mov	a,_score
+      0000FE 04               [12]  620 	inc	a
+      0000FF F5 24            [12]  621 	mov	_score,a
+                                    622 ;	dino.c:106: map_btm[1]++; 
+      000101 E5 28            [12]  623 	mov	a,(_map_btm + 0x0001)
+      000103 04               [12]  624 	inc	a
+      000104 F5 28            [12]  625 	mov	(_map_btm + 0x0001),a
+      000106                        626 00115$:
+                                    627 ;	dino.c:109: LCD_cursorGoTo(0, 0);
+      000106 75 82 80         [24]  628 	mov	dpl, #0x80
+      000109 12r00r00         [24]  629 	lcall	_LCD_IRWrite
+                                    630 ;	dino.c:110: for(mask = 0x80; mask; mask >>= 1){ 
+      00010C 75 2B 80         [24]  631 	mov	_mask,#0x80
+      00010F                        632 00124$:
+      00010F E5 2B            [12]  633 	mov	a,_mask
+      000111 60 19            [24]  634 	jz	00116$
+                                    635 ;	dino.c:111: LCD_write_char((map_top[0] & mask) ? '\2' : ' '); 
+      000113 E5 2B            [12]  636 	mov	a,_mask
+      000115 55 25            [12]  637 	anl	a,_map_top
+      000117 60 04            [24]  638 	jz	00141$
+      000119 7F 02            [12]  639 	mov	r7,#0x02
+      00011B 80 02            [24]  640 	sjmp	00142$
+      00011D                        641 00141$:
+      00011D 7F 20            [12]  642 	mov	r7,#0x20
+      00011F                        643 00142$:
+      00011F 8F 82            [24]  644 	mov	dpl,r7
+      000121 12r00r00         [24]  645 	lcall	_LCD_write_char
+                                    646 ;	dino.c:110: for(mask = 0x80; mask; mask >>= 1){ 
+      000124 E5 2B            [12]  647 	mov	a,_mask
+      000126 C3               [12]  648 	clr	c
+      000127 13               [12]  649 	rrc	a
+      000128 F5 2B            [12]  650 	mov	_mask,a
+      00012A 80 E3            [24]  651 	sjmp	00124$
+      00012C                        652 00116$:
+                                    653 ;	dino.c:114: for(mask = 0x80; mask != 1; mask >>= 1){
+      00012C 75 2B 80         [24]  654 	mov	_mask,#0x80
+      00012F                        655 00127$:
+      00012F 74 01            [12]  656 	mov	a,#0x01
+      000131 B5 2B 02         [24]  657 	cjne	a,_mask,00295$
+      000134 80 19            [24]  658 	sjmp	00117$
+      000136                        659 00295$:
+                                    660 ;	dino.c:115: LCD_write_char((map_top[1] & mask) ? '\2' : ' ');
+      000136 E5 2B            [12]  661 	mov	a,_mask
+      000138 55 26            [12]  662 	anl	a,(_map_top + 0x0001)
+      00013A 60 04            [24]  663 	jz	00143$
+      00013C 7F 02            [12]  664 	mov	r7,#0x02
+      00013E 80 02            [24]  665 	sjmp	00144$
+      000140                        666 00143$:
+      000140 7F 20            [12]  667 	mov	r7,#0x20
+      000142                        668 00144$:
+      000142 8F 82            [24]  669 	mov	dpl,r7
+      000144 12r00r00         [24]  670 	lcall	_LCD_write_char
+                                    671 ;	dino.c:114: for(mask = 0x80; mask != 1; mask >>= 1){
+      000147 E5 2B            [12]  672 	mov	a,_mask
+      000149 C3               [12]  673 	clr	c
+      00014A 13               [12]  674 	rrc	a
+      00014B F5 2B            [12]  675 	mov	_mask,a
+      00014D 80 E0            [24]  676 	sjmp	00127$
+      00014F                        677 00117$:
+                                    678 ;	dino.c:118: LCD_cursorGoTo(1, 0);
+      00014F 75 82 C0         [24]  679 	mov	dpl, #0xc0
+      000152 12r00r00         [24]  680 	lcall	_LCD_IRWrite
+                                    681 ;	dino.c:119: for(mask = 0x80; mask; mask >>= 1){
+      000155 75 2B 80         [24]  682 	mov	_mask,#0x80
+      000158                        683 00130$:
+      000158 E5 2B            [12]  684 	mov	a,_mask
+      00015A 60 19            [24]  685 	jz	00118$
+                                    686 ;	dino.c:120: LCD_write_char((map_btm[0] & mask) ? '\2' : ' ');
+      00015C E5 2B            [12]  687 	mov	a,_mask
+      00015E 55 27            [12]  688 	anl	a,_map_btm
+      000160 60 04            [24]  689 	jz	00145$
+      000162 7F 02            [12]  690 	mov	r7,#0x02
+      000164 80 02            [24]  691 	sjmp	00146$
+      000166                        692 00145$:
+      000166 7F 20            [12]  693 	mov	r7,#0x20
+      000168                        694 00146$:
+      000168 8F 82            [24]  695 	mov	dpl,r7
+      00016A 12r00r00         [24]  696 	lcall	_LCD_write_char
+                                    697 ;	dino.c:119: for(mask = 0x80; mask; mask >>= 1){
+      00016D E5 2B            [12]  698 	mov	a,_mask
+      00016F C3               [12]  699 	clr	c
+      000170 13               [12]  700 	rrc	a
+      000171 F5 2B            [12]  701 	mov	_mask,a
+      000173 80 E3            [24]  702 	sjmp	00130$
+      000175                        703 00118$:
+                                    704 ;	dino.c:122: for(mask = 0x80; mask != 1; mask >>= 1){
+      000175 75 2B 80         [24]  705 	mov	_mask,#0x80
+      000178                        706 00133$:
+      000178 74 01            [12]  707 	mov	a,#0x01
+      00017A B5 2B 02         [24]  708 	cjne	a,_mask,00299$
+      00017D 80 19            [24]  709 	sjmp	00119$
+      00017F                        710 00299$:
+                                    711 ;	dino.c:123: LCD_write_char((map_btm[1] & mask) ? '\2' : ' ');
+      00017F E5 2B            [12]  712 	mov	a,_mask
+      000181 55 28            [12]  713 	anl	a,(_map_btm + 0x0001)
+      000183 60 04            [24]  714 	jz	00147$
+      000185 7F 02            [12]  715 	mov	r7,#0x02
+      000187 80 02            [24]  716 	sjmp	00148$
+      000189                        717 00147$:
+      000189 7F 20            [12]  718 	mov	r7,#0x20
+      00018B                        719 00148$:
+      00018B 8F 82            [24]  720 	mov	dpl,r7
+      00018D 12r00r00         [24]  721 	lcall	_LCD_write_char
+                                    722 ;	dino.c:122: for(mask = 0x80; mask != 1; mask >>= 1){
+      000190 E5 2B            [12]  723 	mov	a,_mask
+      000192 C3               [12]  724 	clr	c
+      000193 13               [12]  725 	rrc	a
+      000194 F5 2B            [12]  726 	mov	_mask,a
+      000196 80 E0            [24]  727 	sjmp	00133$
+      000198                        728 00119$:
+                                    729 ;	dino.c:126: LCD_cursorGoTo(dino_position, 0);
+      000198 E5 21            [12]  730 	mov	a,_dino_position
+      00019A 03               [12]  731 	rr	a
+      00019B 03               [12]  732 	rr	a
+      00019C 54 C0            [12]  733 	anl	a,#0xc0
+      00019E FF               [12]  734 	mov	r7,a
+      00019F 74 80            [12]  735 	mov	a,#0x80
+      0001A1 4F               [12]  736 	orl	a,r7
+      0001A2 F5 82            [12]  737 	mov	dpl,a
+      0001A4 12r00r00         [24]  738 	lcall	_LCD_IRWrite
+                                    739 ;	dino.c:127: LCD_write_char('\1');
+      0001A7 75 82 01         [24]  740 	mov	dpl, #0x01
+      0001AA 12r00r00         [24]  741 	lcall	_LCD_write_char
+                                    742 ;	dino.c:129: EA = 1;
+                                    743 ;	assignBit
+      0001AD D2 AF            [12]  744 	setb	_EA
+                                    745 ;	dino.c:130: ThreadYield();
+      0001AF 12r00r00         [24]  746 	lcall	_ThreadYield
+                                    747 ;	dino.c:132: }
+      0001B2 02r00r82         [24]  748 	ljmp	00121$
+                                    749 ;------------------------------------------------------------
+                                    750 ;Allocation info for local variables in function 'game_ctrl'
+                                    751 ;------------------------------------------------------------
+                                    752 ;pattern       Allocated to registers r7 
+                                    753 ;i             Allocated to registers r7 
+                                    754 ;------------------------------------------------------------
+                                    755 ;	dino.c:134: void game_ctrl(void)
+                                    756 ;	-----------------------------------------
+                                    757 ;	 function game_ctrl
+                                    758 ;	-----------------------------------------
+      0001B5                        759 _game_ctrl:
+                                    760 ;	dino.c:136: while (1){
+      0001B5                        761 00113$:
+                                    762 ;	dino.c:137: if(game_over){
+      0001B5 E5 23            [12]  763 	mov	a,_game_over
+      0001B7 70 03            [24]  764 	jnz	00162$
+      0001B9 02r02r9D         [24]  765 	ljmp	00102$
+      0001BC                        766 00162$:
+                                    767 ;	dino.c:138: EA = 0;
+                                    768 ;	assignBit
+      0001BC C2 AF            [12]  769 	clr	_EA
+                                    770 ;	dino.c:139: LCD_cursorGoTo(0, 0);
+      0001BE 75 82 80         [24]  771 	mov	dpl, #0x80
+      0001C1 12r00r00         [24]  772 	lcall	_LCD_IRWrite
+                                    773 ;	dino.c:140: LCD_write_char(' ');
+      0001C4 75 82 20         [24]  774 	mov	dpl, #0x20
+      0001C7 12r00r00         [24]  775 	lcall	_LCD_write_char
+                                    776 ;	dino.c:141: LCD_write_char(' ');
+      0001CA 75 82 20         [24]  777 	mov	dpl, #0x20
+      0001CD 12r00r00         [24]  778 	lcall	_LCD_write_char
+                                    779 ;	dino.c:142: LCD_write_char(' ');
+      0001D0 75 82 20         [24]  780 	mov	dpl, #0x20
+      0001D3 12r00r00         [24]  781 	lcall	_LCD_write_char
+                                    782 ;	dino.c:143: LCD_write_char(' ');
+      0001D6 75 82 20         [24]  783 	mov	dpl, #0x20
+      0001D9 12r00r00         [24]  784 	lcall	_LCD_write_char
+                                    785 ;	dino.c:144: LCD_write_char('G');
+      0001DC 75 82 47         [24]  786 	mov	dpl, #0x47
+      0001DF 12r00r00         [24]  787 	lcall	_LCD_write_char
+                                    788 ;	dino.c:145: LCD_write_char('A');
+      0001E2 75 82 41         [24]  789 	mov	dpl, #0x41
+      0001E5 12r00r00         [24]  790 	lcall	_LCD_write_char
+                                    791 ;	dino.c:146: LCD_write_char('M');
+      0001E8 75 82 4D         [24]  792 	mov	dpl, #0x4d
+      0001EB 12r00r00         [24]  793 	lcall	_LCD_write_char
+                                    794 ;	dino.c:147: LCD_write_char('E');
+      0001EE 75 82 45         [24]  795 	mov	dpl, #0x45
+      0001F1 12r00r00         [24]  796 	lcall	_LCD_write_char
+                                    797 ;	dino.c:148: LCD_write_char(' ');
+      0001F4 75 82 20         [24]  798 	mov	dpl, #0x20
+      0001F7 12r00r00         [24]  799 	lcall	_LCD_write_char
+                                    800 ;	dino.c:149: LCD_write_char('O');
+      0001FA 75 82 4F         [24]  801 	mov	dpl, #0x4f
+      0001FD 12r00r00         [24]  802 	lcall	_LCD_write_char
+                                    803 ;	dino.c:150: LCD_write_char('V');
+      000200 75 82 56         [24]  804 	mov	dpl, #0x56
+      000203 12r00r00         [24]  805 	lcall	_LCD_write_char
+                                    806 ;	dino.c:151: LCD_write_char('E');
+      000206 75 82 45         [24]  807 	mov	dpl, #0x45
+      000209 12r00r00         [24]  808 	lcall	_LCD_write_char
+                                    809 ;	dino.c:152: LCD_write_char('R');
+      00020C 75 82 52         [24]  810 	mov	dpl, #0x52
+      00020F 12r00r00         [24]  811 	lcall	_LCD_write_char
+                                    812 ;	dino.c:153: LCD_write_char(' ');
+      000212 75 82 20         [24]  813 	mov	dpl, #0x20
+      000215 12r00r00         [24]  814 	lcall	_LCD_write_char
+                                    815 ;	dino.c:154: LCD_write_char(' ');
+      000218 75 82 20         [24]  816 	mov	dpl, #0x20
+      00021B 12r00r00         [24]  817 	lcall	_LCD_write_char
+                                    818 ;	dino.c:155: LCD_write_char(' ');
+      00021E 75 82 20         [24]  819 	mov	dpl, #0x20
+      000221 12r00r00         [24]  820 	lcall	_LCD_write_char
+                                    821 ;	dino.c:156: LCD_cursorGoTo(1, 0);
+      000224 75 82 C0         [24]  822 	mov	dpl, #0xc0
+      000227 12r00r00         [24]  823 	lcall	_LCD_IRWrite
+                                    824 ;	dino.c:157: LCD_write_char(' ');
+      00022A 75 82 20         [24]  825 	mov	dpl, #0x20
+      00022D 12r00r00         [24]  826 	lcall	_LCD_write_char
+                                    827 ;	dino.c:158: LCD_write_char(' ');
+      000230 75 82 20         [24]  828 	mov	dpl, #0x20
+      000233 12r00r00         [24]  829 	lcall	_LCD_write_char
+                                    830 ;	dino.c:159: LCD_write_char(' ');
+      000236 75 82 20         [24]  831 	mov	dpl, #0x20
+      000239 12r00r00         [24]  832 	lcall	_LCD_write_char
+                                    833 ;	dino.c:160: LCD_write_char(' ');
+      00023C 75 82 20         [24]  834 	mov	dpl, #0x20
+      00023F 12r00r00         [24]  835 	lcall	_LCD_write_char
+                                    836 ;	dino.c:161: LCD_write_char('S');
+      000242 75 82 53         [24]  837 	mov	dpl, #0x53
+      000245 12r00r00         [24]  838 	lcall	_LCD_write_char
+                                    839 ;	dino.c:162: LCD_write_char('C');
+      000248 75 82 43         [24]  840 	mov	dpl, #0x43
+      00024B 12r00r00         [24]  841 	lcall	_LCD_write_char
+                                    842 ;	dino.c:163: LCD_write_char('O');
+      00024E 75 82 4F         [24]  843 	mov	dpl, #0x4f
+      000251 12r00r00         [24]  844 	lcall	_LCD_write_char
+                                    845 ;	dino.c:164: LCD_write_char('R');
+      000254 75 82 52         [24]  846 	mov	dpl, #0x52
+      000257 12r00r00         [24]  847 	lcall	_LCD_write_char
+                                    848 ;	dino.c:165: LCD_write_char('E');
+      00025A 75 82 45         [24]  849 	mov	dpl, #0x45
+      00025D 12r00r00         [24]  850 	lcall	_LCD_write_char
+                                    851 ;	dino.c:166: LCD_write_char(':');
+      000260 75 82 3A         [24]  852 	mov	dpl, #0x3a
+      000263 12r00r00         [24]  853 	lcall	_LCD_write_char
+                                    854 ;	dino.c:167: LCD_write_char(' ');
+      000266 75 82 20         [24]  855 	mov	dpl, #0x20
+      000269 12r00r00         [24]  856 	lcall	_LCD_write_char
+                                    857 ;	dino.c:168: LCD_write_char(score/10 + '0');
+      00026C AF 24            [24]  858 	mov	r7,_score
+      00026E 75 F0 0A         [24]  859 	mov	b,#0x0a
+      000271 EF               [12]  860 	mov	a,r7
+      000272 84               [48]  861 	div	ab
+      000273 24 30            [12]  862 	add	a,#0x30
+      000275 F5 82            [12]  863 	mov	dpl,a
+      000277 12r00r00         [24]  864 	lcall	_LCD_write_char
+                                    865 ;	dino.c:169: LCD_write_char(score%10 + '0');
+      00027A AF 24            [24]  866 	mov	r7,_score
+      00027C 75 F0 0A         [24]  867 	mov	b,#0x0a
+      00027F EF               [12]  868 	mov	a,r7
+      000280 84               [48]  869 	div	ab
+      000281 AF F0            [24]  870 	mov	r7,b
+      000283 74 30            [12]  871 	mov	a,#0x30
+      000285 2F               [12]  872 	add	a, r7
+      000286 F5 82            [12]  873 	mov	dpl,a
+      000288 12r00r00         [24]  874 	lcall	_LCD_write_char
+                                    875 ;	dino.c:170: LCD_write_char(' ');
+      00028B 75 82 20         [24]  876 	mov	dpl, #0x20
+      00028E 12r00r00         [24]  877 	lcall	_LCD_write_char
+                                    878 ;	dino.c:171: LCD_write_char(' ');
+      000291 75 82 20         [24]  879 	mov	dpl, #0x20
+      000294 12r00r00         [24]  880 	lcall	_LCD_write_char
+                                    881 ;	dino.c:172: LCD_write_char(' ');
+      000297 75 82 20         [24]  882 	mov	dpl, #0x20
+                                    883 ;	dino.c:173: return;
+      00029A 02r00r00         [24]  884 	ljmp	_LCD_write_char
+      00029D                        885 00102$:
+                                    886 ;	dino.c:176: cactus_timer++;
+      00029D E5 2D            [12]  887 	mov	a,_cactus_timer
+      00029F 04               [12]  888 	inc	a
+      0002A0 F5 2D            [12]  889 	mov	_cactus_timer,a
+                                    890 ;	dino.c:177: if (cactus_timer >= (10 - game_speed)) {  
+      0002A2 AE 2C            [24]  891 	mov	r6,_game_speed
+      0002A4 7F 00            [12]  892 	mov	r7,#0x00
+      0002A6 74 0A            [12]  893 	mov	a,#0x0a
+      0002A8 C3               [12]  894 	clr	c
+      0002A9 9E               [12]  895 	subb	a,r6
+      0002AA FE               [12]  896 	mov	r6,a
+      0002AB E4               [12]  897 	clr	a
+      0002AC 9F               [12]  898 	subb	a,r7
+      0002AD FF               [12]  899 	mov	r7,a
+      0002AE AC 2D            [24]  900 	mov	r4,_cactus_timer
+      0002B0 7D 00            [12]  901 	mov	r5,#0x00
+      0002B2 C3               [12]  902 	clr	c
+      0002B3 EC               [12]  903 	mov	a,r4
+      0002B4 9E               [12]  904 	subb	a,r6
+      0002B5 ED               [12]  905 	mov	a,r5
+      0002B6 64 80            [12]  906 	xrl	a,#0x80
+      0002B8 8F F0            [24]  907 	mov	b,r7
+      0002BA 63 F0 80         [24]  908 	xrl	b,#0x80
+      0002BD 95 F0            [12]  909 	subb	a,b
+      0002BF 40 4B            [24]  910 	jc	00126$
+                                    911 ;	dino.c:178: cactus_timer = 0;
+      0002C1 75 2D 00         [24]  912 	mov	_cactus_timer,#0x00
+                                    913 ;	dino.c:180: unsigned char pattern = cactus_patterns[(score + last_cactus_row) % 8];
+      0002C4 AE 24            [24]  914 	mov	r6,_score
+      0002C6 7F 00            [12]  915 	mov	r7,#0x00
+      0002C8 AC 2E            [24]  916 	mov	r4,_last_cactus_row
+      0002CA 7D 00            [12]  917 	mov	r5,#0x00
+      0002CC EC               [12]  918 	mov	a,r4
+      0002CD 2E               [12]  919 	add	a, r6
+      0002CE F5 82            [12]  920 	mov	dpl,a
+      0002D0 ED               [12]  921 	mov	a,r5
+      0002D1 3F               [12]  922 	addc	a, r7
+      0002D2 F5 83            [12]  923 	mov	dph,a
+      0002D4 75*00 08         [24]  924 	mov	__modsint_PARM_2,#0x08
+      0002D7 8F*01            [24]  925 	mov	(__modsint_PARM_2 + 1),r7
+      0002D9 12r00r00         [24]  926 	lcall	__modsint
+      0002DC AE 82            [24]  927 	mov	r6, dpl
+      0002DE AF 83            [24]  928 	mov	r7, dph
+      0002E0 EE               [12]  929 	mov	a,r6
+      0002E1 24r10            [12]  930 	add	a, #_cactus_patterns
+      0002E3 F5 82            [12]  931 	mov	dpl,a
+      0002E5 EF               [12]  932 	mov	a,r7
+      0002E6 34s00            [12]  933 	addc	a, #(_cactus_patterns >> 8)
+      0002E8 F5 83            [12]  934 	mov	dph,a
+      0002EA E4               [12]  935 	clr	a
+      0002EB 93               [24]  936 	movc	a,@a+dptr
+      0002EC FF               [12]  937 	mov	r7,a
+                                    938 ;	dino.c:182: if (pattern == 1) {
+      0002ED BF 01 0B         [24]  939 	cjne	r7,#0x01,00107$
+                                    940 ;	dino.c:183: map_top[1] |= 0x01;  
+      0002F0 74 01            [12]  941 	mov	a,#0x01
+      0002F2 45 26            [12]  942 	orl	a,(_map_top + 0x0001)
+      0002F4 F5 26            [12]  943 	mov	(_map_top + 0x0001),a
+                                    944 ;	dino.c:184: last_cactus_row = 1;
+      0002F6 75 2E 01         [24]  945 	mov	_last_cactus_row,#0x01
+      0002F9 80 11            [24]  946 	sjmp	00126$
+      0002FB                        947 00107$:
+                                    948 ;	dino.c:185: } else if (pattern == 2) {
+      0002FB BF 02 0B         [24]  949 	cjne	r7,#0x02,00104$
+                                    950 ;	dino.c:186: map_btm[1] |= 0x01;  
+      0002FE 74 01            [12]  951 	mov	a,#0x01
+      000300 45 28            [12]  952 	orl	a,(_map_btm + 0x0001)
+      000302 F5 28            [12]  953 	mov	(_map_btm + 0x0001),a
+                                    954 ;	dino.c:187: last_cactus_row = 2;
+      000304 75 2E 02         [24]  955 	mov	_last_cactus_row,#0x02
+      000307 80 03            [24]  956 	sjmp	00126$
+      000309                        957 00104$:
+                                    958 ;	dino.c:189: last_cactus_row = 0;  
+      000309 75 2E 00         [24]  959 	mov	_last_cactus_row,#0x00
+                                    960 ;	dino.c:194: for (i = 0; i < game_speed; i++) {
+      00030C                        961 00126$:
+      00030C 7F 00            [12]  962 	mov	r7,#0x00
+      00030E                        963 00116$:
+      00030E C3               [12]  964 	clr	c
+      00030F EF               [12]  965 	mov	a,r7
+      000310 95 2C            [12]  966 	subb	a,_game_speed
+      000312 40 03            [24]  967 	jc	00168$
+      000314 02r01rB5         [24]  968 	ljmp	00113$
+      000317                        969 00168$:
+                                    970 ;	dino.c:195: ThreadYield();
+      000317 C0 07            [24]  971 	push	ar7
+      000319 12r00r00         [24]  972 	lcall	_ThreadYield
+      00031C D0 07            [24]  973 	pop	ar7
+                                    974 ;	dino.c:194: for (i = 0; i < game_speed; i++) {
+      00031E 0F               [12]  975 	inc	r7
+                                    976 ;	dino.c:198: }
+      00031F 80 ED            [24]  977 	sjmp	00116$
+                                    978 ;------------------------------------------------------------
+                                    979 ;Allocation info for local variables in function 'difficulty_input'
+                                    980 ;------------------------------------------------------------
+                                    981 ;input_time    Allocated to registers r7 
+                                    982 ;key           Allocated to registers r6 
+                                    983 ;------------------------------------------------------------
+                                    984 ;	dino.c:203: unsigned char difficulty_input() {
+                                    985 ;	-----------------------------------------
+                                    986 ;	 function difficulty_input
+                                    987 ;	-----------------------------------------
+      000321                        988 _difficulty_input:
+                                    989 ;	dino.c:204: unsigned char input_time = 0;
+      000321 7F 00            [12]  990 	mov	r7,#0x00
+                                    991 ;	dino.c:207: while (!AnyKeyPressed());
+      000323                        992 00101$:
+      000323 C0 07            [24]  993 	push	ar7
+      000325 12r00r00         [24]  994 	lcall	_AnyKeyPressed
+      000328 E5 82            [12]  995 	mov	a, dpl
+      00032A D0 07            [24]  996 	pop	ar7
+      00032C 60 F5            [24]  997 	jz	00101$
+                                    998 ;	dino.c:208: key = KeyToChar();
+      00032E C0 07            [24]  999 	push	ar7
+      000330 12r00r00         [24] 1000 	lcall	_KeyToChar
+      000333 AE 82            [24] 1001 	mov	r6, dpl
+      000335 D0 07            [24] 1002 	pop	ar7
+                                   1003 ;	dino.c:209: while (AnyKeyPressed());
+      000337                       1004 00104$:
+      000337 C0 07            [24] 1005 	push	ar7
+      000339 C0 06            [24] 1006 	push	ar6
+      00033B 12r00r00         [24] 1007 	lcall	_AnyKeyPressed
+      00033E E5 82            [12] 1008 	mov	a, dpl
+      000340 D0 06            [24] 1009 	pop	ar6
+      000342 D0 07            [24] 1010 	pop	ar7
+      000344 70 F1            [24] 1011 	jnz	00104$
+                                   1012 ;	dino.c:211: if (key == '#') {
+      000346 BE 23 05         [24] 1013 	cjne	r6,#0x23,00111$
+                                   1014 ;	dino.c:212: if (input_time == 0)
+      000349 EF               [12] 1015 	mov	a,r7
+      00034A 70 17            [24] 1016 	jnz	00119$
+                                   1017 ;	dino.c:213: continue;
+                                   1018 ;	dino.c:215: break;
+      00034C 80 D5            [24] 1019 	sjmp	00101$
+      00034E                       1020 00111$:
+                                   1021 ;	dino.c:218: if (key == '*') {
+      00034E BE 2A 02         [24] 1022 	cjne	r6,#0x2a,00181$
+      000351 80 D0            [24] 1023 	sjmp	00101$
+      000353                       1024 00181$:
+                                   1025 ;	dino.c:222: if (key >= '1' && key <= '9') {
+      000353 BE 31 00         [24] 1026 	cjne	r6,#0x31,00182$
+      000356                       1027 00182$:
+      000356 40 CB            [24] 1028 	jc	00101$
+      000358 EE               [12] 1029 	mov	a,r6
+      000359 24 C6            [12] 1030 	add	a,#0xff - 0x39
+      00035B 40 C6            [24] 1031 	jc	00101$
+                                   1032 ;	dino.c:223: input_time = (key - '0');
+      00035D EE               [12] 1033 	mov	a,r6
+      00035E 24 D0            [12] 1034 	add	a,#0xd0
+      000360 FF               [12] 1035 	mov	r7,a
+      000361 80 C0            [24] 1036 	sjmp	00101$
+      000363                       1037 00119$:
+                                   1038 ;	dino.c:226: return input_time;
+      000363 8F 82            [24] 1039 	mov	dpl, r7
+                                   1040 ;	dino.c:227: }
+      000365 22               [24] 1041 	ret
+                                   1042 ;------------------------------------------------------------
+                                   1043 ;Allocation info for local variables in function 'main'
+                                   1044 ;------------------------------------------------------------
+                                   1045 ;	dino.c:237: void main(void)
+                                   1046 ;	-----------------------------------------
+                                   1047 ;	 function main
+                                   1048 ;	-----------------------------------------
+      000366                       1049 _main:
+                                   1050 ;	dino.c:239: Init_Keypad();
+      000366 12r00r00         [24] 1051 	lcall	_Init_Keypad
+                                   1052 ;	dino.c:240: LCD_Init();
+      000369 12r00r00         [24] 1053 	lcall	_LCD_Init
+                                   1054 ;	dino.c:241: LCD_set_symbol('\10', dinosaur); 
+      00036C 75*00r00         [24] 1055 	mov	_LCD_set_symbol_PARM_2,#_dinosaur
+      00036F 75*01s00         [24] 1056 	mov	(_LCD_set_symbol_PARM_2 + 1),#(_dinosaur >> 8)
+      000372 75*02 80         [24] 1057 	mov	(_LCD_set_symbol_PARM_2 + 2),#0x80
+      000375 75 82 08         [24] 1058 	mov	dpl, #0x08
+      000378 12r00r00         [24] 1059 	lcall	_LCD_set_symbol
+                                   1060 ;	dino.c:242: LCD_set_symbol('\20', cactus);   
+      00037B 75*00r08         [24] 1061 	mov	_LCD_set_symbol_PARM_2,#_cactus
+      00037E 75*01s00         [24] 1062 	mov	(_LCD_set_symbol_PARM_2 + 1),#(_cactus >> 8)
+      000381 75*02 80         [24] 1063 	mov	(_LCD_set_symbol_PARM_2 + 2),#0x80
+      000384 75 82 10         [24] 1064 	mov	dpl, #0x10
+      000387 12r00r00         [24] 1065 	lcall	_LCD_set_symbol
+                                   1066 ;	dino.c:244: map_top[0] = 0x1C;
+      00038A 75 25 1C         [24] 1067 	mov	_map_top,#0x1c
+                                   1068 ;	dino.c:245: map_top[1] = 0x00;
+      00038D 75 26 00         [24] 1069 	mov	(_map_top + 0x0001),#0x00
+                                   1070 ;	dino.c:246: map_btm[0] = 0x00;
+      000390 75 27 00         [24] 1071 	mov	_map_btm,#0x00
+                                   1072 ;	dino.c:247: map_btm[1] = 0xE0;
+      000393 75 28 E0         [24] 1073 	mov	(_map_btm + 0x0001),#0xe0
+                                   1074 ;	dino.c:249: time = 0;
+      000396 75 29 00         [24] 1075 	mov	_time,#0x00
+                                   1076 ;	dino.c:250: game_over = 0;
+      000399 75 23 00         [24] 1077 	mov	_game_over,#0x00
+                                   1078 ;	dino.c:251: score = 0;
+      00039C 75 24 00         [24] 1079 	mov	_score,#0x00
+                                   1080 ;	dino.c:252: dino_position = 0;
+      00039F 75 21 00         [24] 1081 	mov	_dino_position,#0x00
+                                   1082 ;	dino.c:253: cactus_timer = 0;
+      0003A2 75 2D 00         [24] 1083 	mov	_cactus_timer,#0x00
+                                   1084 ;	dino.c:254: last_cactus_row = 0;
+      0003A5 75 2E 00         [24] 1085 	mov	_last_cactus_row,#0x00
+                                   1086 ;	dino.c:256: game_speed = difficulty_input();
+      0003A8 12r03r21         [24] 1087 	lcall	_difficulty_input
+      0003AB 85 82 2C         [24] 1088 	mov	_game_speed,dpl
+                                   1089 ;	dino.c:257: if (game_speed > 9) game_speed = 9;  
+      0003AE E5 2C            [12] 1090 	mov	a,_game_speed
+      0003B0 24 F6            [12] 1091 	add	a,#0xff - 0x09
+      0003B2 50 03            [24] 1092 	jnc	00102$
+      0003B4 75 2C 09         [24] 1093 	mov	_game_speed,#0x09
+      0003B7                       1094 00102$:
+                                   1095 ;	dino.c:258: if (game_speed < 1) game_speed = 1;  
+      0003B7 74 FF            [12] 1096 	mov	a,#0x100 - 0x01
+      0003B9 25 2C            [12] 1097 	add	a,_game_speed
+      0003BB 40 03            [24] 1098 	jc	00104$
+      0003BD 75 2C 01         [24] 1099 	mov	_game_speed,#0x01
+      0003C0                       1100 00104$:
+                                   1101 ;	dino.c:260: ThreadCreate(render_task);
+      0003C0 90r00r82         [24] 1102 	mov	dptr,#_render_task
+      0003C3 12r00r00         [24] 1103 	lcall	_ThreadCreate
+                                   1104 ;	dino.c:261: ThreadCreate(keypad_ctrl);
+      0003C6 90r00r00         [24] 1105 	mov	dptr,#_keypad_ctrl
+      0003C9 12r00r00         [24] 1106 	lcall	_ThreadCreate
+                                   1107 ;	dino.c:262: game_ctrl();
+                                   1108 ;	dino.c:263: }
+      0003CC 02r01rB5         [24] 1109 	ljmp	_game_ctrl
+                                   1110 ;------------------------------------------------------------
+                                   1111 ;Allocation info for local variables in function '_sdcc_gsinit_startup'
+                                   1112 ;------------------------------------------------------------
+                                   1113 ;	dino.c:265: void _sdcc_gsinit_startup(void) 
+                                   1114 ;	-----------------------------------------
+                                   1115 ;	 function _sdcc_gsinit_startup
+                                   1116 ;	-----------------------------------------
+      0003CF                       1117 __sdcc_gsinit_startup:
+                                   1118 ;	dino.c:269: __endasm;
+      0003CF 02r00r00         [24] 1119 	LJMP	_Bootstrap
+                                   1120 ;	dino.c:270: }
+      0003D2 22               [24] 1121 	ret
+                                   1122 ;------------------------------------------------------------
+                                   1123 ;Allocation info for local variables in function '_mcs51_genRAMCLEAR'
+                                   1124 ;------------------------------------------------------------
+                                   1125 ;	dino.c:272: void _mcs51_genRAMCLEAR(void) {}
+                                   1126 ;	-----------------------------------------
+                                   1127 ;	 function _mcs51_genRAMCLEAR
+                                   1128 ;	-----------------------------------------
+      0003D3                       1129 __mcs51_genRAMCLEAR:
+      0003D3 22               [24] 1130 	ret
+                                   1131 ;------------------------------------------------------------
+                                   1132 ;Allocation info for local variables in function '_mcs51_genXINIT'
+                                   1133 ;------------------------------------------------------------
+                                   1134 ;	dino.c:273: void _mcs51_genXINIT(void) {}
+                                   1135 ;	-----------------------------------------
+                                   1136 ;	 function _mcs51_genXINIT
+                                   1137 ;	-----------------------------------------
+      0003D4                       1138 __mcs51_genXINIT:
+      0003D4 22               [24] 1139 	ret
+                                   1140 ;------------------------------------------------------------
+                                   1141 ;Allocation info for local variables in function '_mcs51_genXRAMCLEAR'
+                                   1142 ;------------------------------------------------------------
+                                   1143 ;	dino.c:274: void _mcs51_genXRAMCLEAR(void) {}
+                                   1144 ;	-----------------------------------------
+                                   1145 ;	 function _mcs51_genXRAMCLEAR
+                                   1146 ;	-----------------------------------------
+      0003D5                       1147 __mcs51_genXRAMCLEAR:
+      0003D5 22               [24] 1148 	ret
+                                   1149 ;------------------------------------------------------------
+                                   1150 ;Allocation info for local variables in function 'timer0_ISR'
+                                   1151 ;------------------------------------------------------------
+                                   1152 ;	dino.c:276: void timer0_ISR(void) __interrupt(1)
+                                   1153 ;	-----------------------------------------
+                                   1154 ;	 function timer0_ISR
+                                   1155 ;	-----------------------------------------
+      0003D6                       1156 _timer0_ISR:
+                                   1157 ;	dino.c:280: __endasm;
+      0003D6 02r00r00         [24] 1158 	LJMP	_myTimer0Handler
+                                   1159 ;	dino.c:281: }
+      0003D9 02r00r00         [24] 1160 	ljmp	sdcc_atomic_maybe_rollback
+                                   1161 ;	eliminated unneeded mov psw,# (no regs used in bank)
+                                   1162 ;	eliminated unneeded push/pop not_psw
+                                   1163 ;	eliminated unneeded push/pop dpl
+                                   1164 ;	eliminated unneeded push/pop dph
+                                   1165 ;	eliminated unneeded push/pop b
+                                   1166 ;	eliminated unneeded push/pop acc
+                                   1167 	.area CSEG    (CODE)
+                                   1168 	.area CONST   (CODE)
+                                   1169 	.area CONST   (CODE)
+      000000                       1170 _dinosaur:
+      000000 07                    1171 	.db #0x07	; 7
+      000001 05                    1172 	.db #0x05	; 5
+      000002 06                    1173 	.db #0x06	; 6
+      000003 07                    1174 	.db #0x07	; 7
+      000004 14                    1175 	.db #0x14	; 20
+      000005 17                    1176 	.db #0x17	; 23
+      000006 0E                    1177 	.db #0x0e	; 14
+      000007 0A                    1178 	.db #0x0a	; 10
+                                   1179 	.area CSEG    (CODE)
+                                   1180 	.area CONST   (CODE)
+      000008                       1181 _cactus:
+      000008 04                    1182 	.db #0x04	; 4
+      000009 05                    1183 	.db #0x05	; 5
+      00000A 15                    1184 	.db #0x15	; 21
+      00000B 15                    1185 	.db #0x15	; 21
+      00000C 16                    1186 	.db #0x16	; 22
+      00000D 0C                    1187 	.db #0x0c	; 12
+      00000E 04                    1188 	.db #0x04	; 4
+      00000F 04                    1189 	.db #0x04	; 4
+                                   1190 	.area CSEG    (CODE)
+                                   1191 	.area CONST   (CODE)
+      000010                       1192 _cactus_patterns:
+      000010 01                    1193 	.db #0x01	; 1
+      000011 00                    1194 	.db #0x00	; 0
+      000012 02                    1195 	.db #0x02	; 2
+      000013 00                    1196 	.db #0x00	; 0
+      000014 01                    1197 	.db #0x01	; 1
+      000015 00                    1198 	.db #0x00	; 0
+      000016 02                    1199 	.db #0x02	; 2
+                                   1200 	.area CSEG    (CODE)
+                                   1201 	.area XINIT   (CODE)
+                                   1202 	.area CABS    (ABS,CODE)
